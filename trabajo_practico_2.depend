@@ -1,0 +1,146 @@
+# depslib dependency file v1.0
+1525891609 source:c:\users\sebas\desktop\c\trabajo_practico_2\main.c
+	<stdio.h>
+	<stdlib.h>
+	"util.h"
+	"styles.h"
+	"arrayPersona.h"
+
+1525891649 c:\users\sebas\desktop\c\trabajo_practico_2\util.h
+	<stdio.h>
+	<stdlib.h>
+
+1525891654 c:\users\sebas\desktop\c\trabajo_practico_2\styles.h
+	<stdio.h>
+	<stdlib.h>
+	"util.h"
+
+1525891845 source:c:\users\sebas\desktop\c\trabajo_practico_2\styles.c
+	"styles.h"
+
+1525891830 source:c:\users\sebas\desktop\c\trabajo_practico_2\util.c
+	"util.h"
+
+1525898884 source:c:\users\sebas\desktop\c\trabajo_practico_2\arraypersona.c
+	"arrayPersona.h"
+
+1525898944 c:\users\sebas\desktop\c\trabajo_practico_2\arraypersona.h
+	"persona.h"
+
+1525891686 c:\users\sebas\desktop\c\trabajo_practico_2\persona.h
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"util.h"
+	"styles.h"
+
+1525891407 source:c:\users\sebas\desktop\c\trabajo_practico_2\persona.c
+	"persona.h"
+
+1525891845 source:c:\users\sebas\desktop\c\fantasma\styles.c
+	"styles.h"
+
+1525891654 c:\users\sebas\desktop\c\fantasma\styles.h
+	<stdio.h>
+	<stdlib.h>
+	"util.h"
+
+1525918867 c:\users\sebas\desktop\c\fantasma\util.h
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+
+1525993072 source:c:\users\sebas\desktop\c\fantasma\util.c
+	"util.h"
+
+1525968051 source:c:\users\sebas\desktop\c\fantasma\arraypersona.c
+	"arrayPersona.h"
+
+1525916368 c:\users\sebas\desktop\c\fantasma\arraypersona.h
+	"persona.h"
+
+1525891686 c:\users\sebas\desktop\c\fantasma\persona.h
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"util.h"
+	"styles.h"
+
+1525983029 source:c:\users\sebas\desktop\c\fantasma\arrayproducto.c
+	"arrayProducto.h"
+
+1525916383 c:\users\sebas\desktop\c\fantasma\arrayproducto.h
+	"producto.h"
+
+1525970172 c:\users\sebas\desktop\c\fantasma\producto.h
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"util.h"
+	"styles.h"
+
+1525995654 source:c:\users\sebas\desktop\c\fantasma\main.c
+	<stdio.h>
+	<stdlib.h>
+	"util.h"
+	"styles.h"
+	"arrayRelacion.h"
+
+1525920916 source:c:\users\sebas\desktop\c\fantasma\persona.c
+	"persona.h"
+
+1525975602 source:c:\users\sebas\desktop\c\fantasma\producto.c
+	"producto.h"
+
+1525996431 source:c:\users\sebas\desktop\c\fantasma\arrayrelacion.c
+	"arrayRelacion.h"
+
+1525994113 c:\users\sebas\desktop\c\fantasma\arrayrelacion.h
+	"relacion.h"
+
+1525990861 c:\users\sebas\desktop\c\fantasma\relacion.h
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"util.h"
+	"styles.h"
+	"arrayCliente.h"
+	"arrayPublicacion.h"
+
+1525995176 source:c:\users\sebas\desktop\c\fantasma\relacion.c
+	"relacion.h"
+
+1525992998 source:c:\users\sebas\desktop\c\fantasma\arraycliente.c
+	"arrayCliente.h"
+
+1525992016 c:\users\sebas\desktop\c\fantasma\arraycliente.h
+	"cliente.h"
+
+1525994852 c:\users\sebas\desktop\c\fantasma\cliente.h
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"util.h"
+	"styles.h"
+
+1525994028 source:c:\users\sebas\desktop\c\fantasma\arraypublicacion.c
+	"arrayPublicacion.h"
+
+1525992741 c:\users\sebas\desktop\c\fantasma\arraypublicacion.h
+	"publicacion.h"
+
+1525992576 c:\users\sebas\desktop\c\fantasma\publicacion.h
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"util.h"
+	"styles.h"
+
+1525994892 source:c:\users\sebas\desktop\c\fantasma\publicacion.c
+	"publicacion.h"
+	"arrayCliente.h"
+
+1525996630 source:c:\users\sebas\desktop\c\fantasma\cliente.c
+	"cliente.h"
+
