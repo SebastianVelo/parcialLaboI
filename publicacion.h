@@ -13,6 +13,7 @@
 #define PUBLICACION_rubro_MAX 5
 #define PUBLICACION_ACTIVA 1
 #define PUBLICACION_PAUSA 0
+#define PUBLICACION_ALL 2
 
 /* ------------------------------------------------------------------ */
 /**                     STRUCT                                        */
@@ -20,7 +21,6 @@
 typedef struct Publicacion {
     int      isEmpty;
     int      id;
-    int      idCliente;
     char     desc[DESC_LENGTH];
     int      rubro;
     int      state;

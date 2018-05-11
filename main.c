@@ -60,11 +60,12 @@ int main()
         printf("\n");
 
         arrayRelacion_refresh(&relaciones, clientes);
-        arrayRelacion_refreshClientes(&relaciones, &clientes);
-        //arrayPublicacion_showListFilterGreaterCantidad(publicaciones, 50);
-        //arrayPublicacion_showListFilterLesserCantidad(publicaciones, 50);
-        //arrayPublicacion_showListFilterGreaterPrecio(publicaciones);
-        //arrayPublicacion_showListFilterLesserPrecio(publicaciones);
+        arrayRelacion_refreshClientes(&relaciones, publicaciones, &clientes);
+        arrayRelacion_showClienteConMasAvisosFilter(relaciones, clientes, publicaciones, PUBLICACION_ACTIVA);
+        arrayRelacion_showClienteConMasAvisosFilter(relaciones, clientes, publicaciones, PUBLICACION_PAUSA);
+        arrayRelacion_showClienteConMasAvisosFilter(relaciones, clientes, publicaciones, PUBLICACION_ALL);
+        arrayRelacion_showRubrosConMasAvisosFilter(relaciones, clientes, publicaciones);
+        arrayRelacion_showRubrosConMenosAvisosFilter(relaciones, clientes, publicaciones);
     }
     return 0;
 }

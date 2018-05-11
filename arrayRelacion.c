@@ -6,7 +6,8 @@
 static int firstIndexAvailable(ArrayRelacion relaciones);
 static int sortArray(ArrayRelacion * relaciones, ArrayCliente clientes, ArrayPublicacion publicaciones);
 static int showMsg(int option, int resp);
-static int getCantidadPublicacionesById(ArrayRelacion relaciones, int id);
+static int getCantidadPublicacionesById(ArrayRelacion relaciones, int id, ArrayPublicacion publicaciones, int filter);
+static int getCantidadRubroById(ArrayRelacion relaciones, int id, ArrayPublicacion publicaciones);
 /* ------------------------------------------------------------------ */
 /**                     PUBLICAS                                      */
 /* ------------------------------------------------------------------ */
@@ -34,7 +35,7 @@ void arrayRelacion_refresh(ArrayRelacion * relaciones, ArrayCliente clientes){
  * \return void
  *
  */
-void arrayRelacion_refreshClientes(ArrayRelacion * relaciones, ArrayCliente * clientes){
+void arrayRelacion_refreshClientes(ArrayRelacion * relaciones, ArrayPublicacion publicaciones, ArrayCliente * clientes){
     ArrayRelacion relacionesAux = *relaciones;
     ArrayCliente clientesAux = *clientes;
     int i;
@@ -42,7 +43,7 @@ void arrayRelacion_refreshClientes(ArrayRelacion * relaciones, ArrayCliente * cl
         int id = relacionesAux.listRelaciones[i].idCliente;
         int index = arrayCliente_getIndexOfID(clientesAux, id);
         if(!relacionesAux.listRelaciones[i].isEmpty)
-            clientesAux.listClientes[index].publicaciones = getCantidadPublicacionesById(relacionesAux, id);
+            clientesAux.listClientes[index].publicaciones = getCantidadPublicacionesById(relacionesAux, id, publicaciones, PUBLICACION_ACTIVA);
     }
     *relaciones = relacionesAux;
     *clientes = clientesAux;
@@ -173,30 +174,87 @@ int arrayRelacion_showList(ArrayRelacion relaciones, ArrayCliente clientes, Arra
     }
     showSeparator(4);
     return ret;
-}/* ------------------------------------------------------------------ */
+}
+/* ------------------------------------------------------------------ */
 /** \brief Muestra los datos de todas las relaciones que esten activas en el listaRelaciones del ArrayRelaciones parametrizado.
  *
  * \param relaciones ArrayRelacion
  * \return int
  *
  */
-int arrayRelacion_showClienteConMasAvisos(ArrayRelacion relaciones, ArrayCliente clientes, ArrayPublicacion publicaciones){
+int arrayRelacion_showClienteConMasAvisosFilter(ArrayRelacion relaciones, ArrayCliente clientes, ArrayPublicacion publicaciones, int filter){
     int ret = FAIL_1;
     int i;
-    int ret
+    int maxAvisos = 0;
+    int maxCliente = 0;
     sortArray(&relaciones, clientes, publicaciones);
     showSeparator(4);
     printf("%s\n", RELACION_ENTITY);
     for(i = 0; i < relaciones.length; i++){
         int id = relaciones.listRelaciones[i].idPublicacion;
         int index = arrayPublicacion_getIndexOfID(publicaciones, id);
-        if(!relaciones.listRelaciones[i].isEmpty && publicaciones.listPublicaciones[index].state == PUBLICACION_ACTIVA){
+
+        if(!relaciones.listRelaciones[i].isEmpty && (publicaciones.listPublicaciones[index].state == filter || filter == PUBLICACION_ALL)){
             int cliente = arrayCliente_getIndexOfID(clientes, relaciones.listRelaciones[i].idCliente);
-            int publicacion = arrayPublicacion_getIndexOfID(publicaciones, relaciones.listRelaciones[i].idPublicacion);
-            relacion_showData(relaciones.listRelaciones[i], clientes.listClientes[cliente], publicaciones.listPublicaciones[publicacion]);
-            ret = SUCCESS;
+            if(getCantidadPublicacionesById(relaciones, cliente, publicaciones, filter) > maxAvisos){
+                maxAvisos = getCantidadPublicacionesById(relaciones, cliente, publicaciones, filter);
+                maxCliente = cliente;
+                ret = SUCCESS;
+            }
         }
     }
+    if(ret == SUCCESS)
+        cliente_showData(clientes.listClientes[maxCliente]);
+    showSeparator(4);
+    return ret;
+}
+/** \brief Muestra los datos de todas las relaciones que esten activas en el listaRelaciones del ArrayRelaciones parametrizado.
+ *
+ * \param relaciones ArrayRelacion
+ * \return int
+ *
+ */
+int arrayRelacion_showRubrosConMasAvisosFilter(ArrayRelacion relaciones, ArrayCliente clientes, ArrayPublicacion publicaciones){
+    int ret = FAIL_1;
+    int i;
+    int maxAvisos = 0;
+    int maxRubro = 0;
+    sortArray(&relaciones, clientes, publicaciones);
+    showSeparator(4);
+    printf("RUBRO\n");
+    for(i = 0; i < PUBLICACION_rubro_MAX; i++){
+       if(getCantidadRubroById(relaciones, i, publicaciones) > maxAvisos){
+            maxAvisos = getCantidadRubroById(relaciones, i, publicaciones);
+            maxRubro = i;
+       }
+    }
+    if(ret == SUCCESS)
+        printf("El rubro con mas publicaciones activas es %d con %d", maxRubro, getCantidadRubroById(relaciones, i, publicaciones));
+    showSeparator(4);
+    return ret;
+}
+/** \brief Muestra los datos de todas las relaciones que esten activas en el listaRelaciones del ArrayRelaciones parametrizado.
+ *
+ * \param relaciones ArrayRelacion
+ * \return int
+ *
+ */
+int arrayRelacion_showRubrosConMenosAvisosFilter(ArrayRelacion relaciones, ArrayCliente clientes, ArrayPublicacion publicaciones){
+    int ret = FAIL_1;
+    int i;
+    int minRubro = 0;
+    int minAvisos = 0;
+    sortArray(&relaciones, clientes, publicaciones);
+    showSeparator(4);
+    printf("RUBRO\n");
+    for(i = 0; i < PUBLICACION_rubro_MAX; i++){
+       if(getCantidadRubroById(relaciones, i, publicaciones) < minRubro){
+            minRubro = getCantidadRubroById(relaciones, i, publicaciones);
+            ret = SUCCESS;
+       }
+    }
+    if(ret == SUCCESS)
+        printf("El rubro con mas publicaciones activas es %d con %d", minRubro, getCantidadRubroById(relaciones, i, publicaciones));
     showSeparator(4);
     return ret;
 }
@@ -388,13 +446,25 @@ static int showMsg(int option, int resp){
 /**                     UTILS                                      */
 /* ------------------------------------------------------------------ */
 /* ------------------------------------------------------------------ */
-static int getCantidadPublicacionesById(ArrayRelacion relaciones, int id){
+static int getCantidadPublicacionesById(ArrayRelacion relaciones, int id, ArrayPublicacion publicaciones, int filter){
     int i;
     int ret = 0;
     for(i = 0; i < relaciones.length; i++){
-        if(!relaciones.listRelaciones[i].isEmpty && relaciones.listRelaciones[i].idCliente == id)
+        int idPublicacion = relaciones.listRelaciones[i].idPublicacion;
+        int index = arrayPublicacion_getIndexOfID(publicaciones, idPublicacion);
+        if(!relaciones.listRelaciones[i].isEmpty && relaciones.listRelaciones[i].idCliente == id && (publicaciones.listPublicaciones[index].state == filter || filter == PUBLICACION_ALL))
             ret++;
-        ("%d\n", ret);
+    }
+    return ret;
+}
+static int getCantidadRubroById(ArrayRelacion relaciones, int id, ArrayPublicacion publicaciones){
+    int i;
+    int ret = 0;
+    for(i = 0; i < relaciones.length; i++){
+        int idPublicacion = relaciones.listRelaciones[i].idPublicacion;
+        int index = arrayPublicacion_getIndexOfID(publicaciones, idPublicacion);
+        if(!relaciones.listRelaciones[i].isEmpty && publicaciones.listPublicaciones[index].rubro == id)
+            ret++;
     }
     return ret;
 }
